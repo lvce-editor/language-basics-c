@@ -85,6 +85,8 @@ export const initialLineState = {
   tokens: [],
 }
 
+export const hasArrayReturn = true
+
 export const isEqualLineState = (lineStateA, lineStateB) => {
   return lineStateA.state === lineStateB.state
 }
@@ -167,11 +169,9 @@ export const tokenizeLine = (line, lineState) => {
       default:
         throw new Error('no')
     }
-    index += next[0].length
-    tokens.push({
-      type: token,
-      length: next[0].length,
-    })
+    const tokenLength = next[0].length
+    index += tokenLength
+    tokens.push(token, tokenLength)
   }
   return {
     state,
