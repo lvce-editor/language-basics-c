@@ -1,6 +1,6 @@
-Include
+Function
 Whitespace
-Import
+KeywordThis
 NewLine
 Keyword
 Whitespace
@@ -20,9 +20,9 @@ Punctuation
 Punctuation
 NewLine
 Whitespace
-Keyword
+KeywordReturn
 Whitespace
-Numeric
+KeywordReturn
 Punctuation
 NewLine
 Punctuation
