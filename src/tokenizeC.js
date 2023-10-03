@@ -37,6 +37,18 @@ export const TokenType = {
   PunctuationString: 889,
   String: 890,
   PlainText: 891,
+  KeywordImport: 215,
+  KeywordControl: 881,
+  KeywordModifier: 882,
+  KeywordReturn: 883,
+  KeywordNew: 884,
+  FunctionName: 885,
+  KeywordThis: 886,
+  KeywordOperator: 8887,
+  KeywordFunction: 8889,
+  Class: 8890,
+  KeywordVoid: 8891,
+  LanguageConstant: 13,
 }
 
 export const TokenMap = {
@@ -56,6 +68,18 @@ export const TokenMap = {
   [TokenType.PunctuationString]: 'PunctuationString',
   [TokenType.String]: 'String',
   [TokenType.PlainText]: 'PlainText',
+  [TokenType.KeywordImport]: 'KeywordImport',
+  [TokenType.KeywordControl]: 'KeywordControl',
+  [TokenType.KeywordModifier]: 'KeywordModifier',
+  [TokenType.KeywordReturn]: 'KeywordReturn',
+  [TokenType.KeywordNew]: 'KeywordNew',
+  [TokenType.FunctionName]: 'Function',
+  [TokenType.KeywordThis]: 'KeywordThis',
+  [TokenType.KeywordOperator]: 'KeywordOperator',
+  [TokenType.KeywordFunction]: 'KeywordFunction',
+  [TokenType.KeywordVoid]: 'KeywordVoid',
+  [TokenType.Class]: 'Class',
+  [TokenType.LanguageConstant]: 'LanguageConstant',
 }
 
 const RE_SELECTOR = /^[\.a-zA-Z\d\-\:>]+/
@@ -74,6 +98,7 @@ const RE_INCLUDE = /^#include\b/
 const RE_IMPORT = /^<[^>]*>/
 const RE_KEYWORD =
   /^(?:while|volatile|void|unsigned|union|typedef|switch|struct|static|sizeof|signed|short|return|register|long|int|if|goto|for|float|extern|enum|else|double|do|default|continue|const|char|case|break|auto)\b/
+
 const RE_LINE_COMMENT_START = /^\/\//
 const RE_ANYTHING_UNTIL_END = /^.+/s
 const RE_VARIABLE_NAME = /^[a-zA-Z][a-zA-Z\d\_]*/
@@ -110,8 +135,48 @@ export const tokenizeLine = (line, lineState) => {
     switch (state) {
       case State.TopLevelContent:
         if ((next = part.match(RE_KEYWORD))) {
-          token = TokenType.Keyword
-          state = State.TopLevelContent
+          switch (next[0]) {
+            case 'true':
+            case 'false':
+            case 'null':
+              token = TokenType.LanguageConstant
+              state = State.TopLevelContent
+              break
+            case 'as':
+            case 'switch':
+            case 'default':
+            case 'case':
+            case 'else':
+            case 'if':
+            case 'break':
+            case 'throw':
+            case 'for':
+            case 'try':
+            case 'catch':
+            case 'finally':
+            case 'continue':
+            case 'while':
+            case 'goto':
+              token = TokenType.KeywordControl
+              state = State.TopLevelContent
+              break
+            case 'return':
+              token = TokenType.KeywordReturn
+              state = State.TopLevelContent
+              break
+            case 'of':
+              token = TokenType.KeywordOperator
+              state = State.TopLevelContent
+              break
+            case 'void':
+              token = TokenType.KeywordVoid
+              state = State.TopLevelContent
+              break
+            default:
+              token = TokenType.Keyword
+              state = State.TopLevelContent
+              break
+          }
         } else if ((next = part.match(RE_WHITESPACE))) {
           token = TokenType.Whitespace
           state = State.TopLevelContent
