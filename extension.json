@@ -5,8 +5,11 @@
   "languages": [
     {
       "id": "c",
-      "extensions": [".c"],
+      "extensions": [
+        ".c"
+      ],
       "tokenize": "src/tokenizeC.js"
     }
-  ]
+  ],
+  "repository": "https://github.com/lvce-editor/language-basics-c"
 }
