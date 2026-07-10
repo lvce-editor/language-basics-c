@@ -5,9 +5,7 @@
   "languages": [
     {
       "id": "c",
-      "extensions": [
-        ".c"
-      ],
+      "extensions": [".c"],
       "tokenize": "src/tokenizeC.js"
     }
   ],
