@@ -42,7 +42,7 @@ export const TokenType = {
   KeywordModifier: 882,
   KeywordReturn: 883,
   KeywordNew: 884,
-  FunctionName: 885,
+  FunctionName: 892,
   KeywordThis: 886,
   KeywordOperator: 8887,
   KeywordFunction: 8889,
@@ -98,10 +98,11 @@ const RE_INCLUDE = /^#include\b/
 const RE_IMPORT = /^<[^>]*>/
 const RE_KEYWORD =
   /^(?:while|volatile|void|unsigned|union|typedef|switch|struct|static|sizeof|signed|short|return|register|long|int|if|goto|for|float|extern|enum|else|double|do|default|continue|const|char|case|break|auto)\b/
+const RE_FUNCTION_NAME = /^[a-zA-Z_][a-zA-Z\d_]*(?=\s*\()/
 
 const RE_LINE_COMMENT_START = /^\/\//
 const RE_ANYTHING_UNTIL_END = /^.+/s
-const RE_VARIABLE_NAME = /^[a-zA-Z][a-zA-Z\d\_]*/
+const RE_VARIABLE_NAME = /^[a-zA-Z_][a-zA-Z\d\_]*/
 const RE_PUNCTUATION = /^[\(\)=\+\-><\.:\/\{\};,\[\]\*]/
 const RE_DOUBLE_QUOTE = /^"/
 const RE_STRING_DOUBLE_QUOTE_CONTENT = /^[^"]+/
@@ -179,6 +180,9 @@ export const tokenizeLine = (line, lineState) => {
           }
         } else if ((next = part.match(RE_WHITESPACE))) {
           token = TokenType.Whitespace
+          state = State.TopLevelContent
+        } else if ((next = part.match(RE_FUNCTION_NAME))) {
+          token = TokenType.FunctionName
           state = State.TopLevelContent
         } else if ((next = part.match(RE_VARIABLE_NAME))) {
           token = TokenType.VariableName
