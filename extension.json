@@ -6,6 +6,7 @@
     {
       "id": "c",
       "extensions": [".c"],
+      "configuration": "./languageConfiguration.json",
       "tokenize": "src/tokenizeC.js"
     }
   ],
