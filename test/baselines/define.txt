@@ -44,6 +44,9 @@ Punctuation
 Punctuation
 NewLine
 PlainText
+VariableName
+Whitespace
+VariableName
 NewLine
 Keyword
 Whitespace
