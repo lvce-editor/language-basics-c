@@ -103,8 +103,9 @@ const RE_FUNCTION_NAME = /^[a-zA-Z_][a-zA-Z\d_]*(?=\s*\()/
 
 const RE_LINE_COMMENT_START = /^\/\//
 const RE_ANYTHING_UNTIL_END = /^.+/s
+const RE_UNKNOWN_CHARACTER = /^./s
 const RE_VARIABLE_NAME = /^[a-zA-Z_][a-zA-Z\d\_]*/
-const RE_PUNCTUATION = /^[\(\)=\+\-><\.:\/\{\};,\[\]\*\?]/
+const RE_PUNCTUATION = /^[\(\)=\+\-><\.:\/\{\};,\[\]\*\?&]/
 const RE_DOUBLE_QUOTE = /^"/
 const RE_STRING_DOUBLE_QUOTE_CONTENT = /^[^"]+/
 const RE_BLOCK_COMMENT_START = /^\/\*/
@@ -215,7 +216,7 @@ export const tokenizeLine = (line, lineState) => {
         } else if ((next = part.match(RE_NUMERIC))) {
           token = TokenType.Numeric
           state = State.TopLevelContent
-        } else if ((next = part.match(RE_ANYTHING_UNTIL_END))) {
+        } else if ((next = part.match(RE_UNKNOWN_CHARACTER))) {
           token = TokenType.PlainText
           state = State.TopLevelContent
         } else {
