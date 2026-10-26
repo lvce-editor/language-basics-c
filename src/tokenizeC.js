@@ -95,6 +95,7 @@ const RE_ANYTHING = /^.+/s
 const RE_NUMERIC = /^(([0-9]+\.?[0-9]*)|(\.[0-9]+))/
 const RE_ANYTHING_UNTIL_CLOSE_BRACE = /^[^\}]+/
 const RE_INCLUDE = /^#include\b/
+const RE_DEFINE = /^#[ \t]*define\b/
 const RE_IMPORT = /^<[^>]*>/
 const RE_KEYWORD =
   /^(?:while|volatile|void|unsigned|union|typedef|switch|struct|static|sizeof|signed|short|return|register|long|int|if|goto|for|float|extern|enum|else|double|do|default|continue|const|char|case|break|auto)\b/
@@ -193,6 +194,9 @@ export const tokenizeLine = (line, lineState) => {
         } else if ((next = part.match(RE_INCLUDE))) {
           token = TokenType.Include
           state = State.AfterInclude
+        } else if ((next = part.match(RE_DEFINE))) {
+          token = TokenType.Include
+          state = State.TopLevelContent
         } else if ((next = part.match(RE_SLASH))) {
           if ((next = part.match(RE_BLOCK_COMMENT_START))) {
             token = TokenType.Comment
